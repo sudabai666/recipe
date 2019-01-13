@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoList from './TodoList';
+import AddRecipe from './AddRecipe';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render( <
-    TodoList / > ,
+    AddRecipe / > ,
     document.getElementById('root')
 );
 serviceWorker.unregister();

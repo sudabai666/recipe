@@ -34,9 +34,9 @@ module.exports = {
         },
 
         shasta: {
-            privateKey: process.env.PK,
+            privateKey: `633e7d980d4ec321f9ccaf9ddbb817385d6da6d49494b24fe392574d62628f41`,
             consume_user_resource_percent: 30,
-            fee_limit: 100000000,
+            fee_limit: 1e9,
 
             fullHost: `https://api.shasta.trongrid.io`,
             network_id: `*`,

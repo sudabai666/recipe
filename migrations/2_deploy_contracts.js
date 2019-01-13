@@ -1,5 +1,4 @@
-var TodoList = artifacts.require("./TodoList.sol");
-
+var Recipe = artifacts.require("./RecipeList.sol");
 module.exports = function(deployer) {
-  deployer.deploy(TodoList);
-};
+  deployer.deploy(Recipe);
+}
