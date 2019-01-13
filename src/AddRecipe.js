@@ -22,7 +22,7 @@ class AddRecipe extends Component {
         
           <InputText
             value={this.state.newItem2}
-            placeholder="食谱价格，单位元"
+            placeholder="食谱价格(元)"
             onChange={e => this.setState({ newItem2: e.target.value })}
           />
           
@@ -31,6 +31,7 @@ class AddRecipe extends Component {
             placeholder="制作顺序"
             onChange={e => this.setState({ newItem3: e.target.value })}
           />
+         
     
           <SubmitBtn onClick={() => this.handleSubmit()}>
             提交
@@ -98,7 +99,7 @@ async componentWillMount() {
 
 async handleSubmit() {
     
-    console.info("ooooooooooooooo")
+
 
     this.setState({ pending: true });
     
@@ -314,6 +315,7 @@ const List = styled.ul `
 
 const TodoItem = styled.li `
   position: relative;
+  width: 800px;
   font-size: 24px;
   border-bottom: 1px solid #ededed;
 
@@ -325,9 +327,11 @@ const TodoItem = styled.li `
 const ItemLabel = styled.label `
   white-space: pre-line;
   word-break: break-all;
-  padding: 15px 60px 15px 15px;
-  margin-left: 45px;
-  width: 200px;
+  margin-left: 110px;
+  width: 140px;
+  display:block;
+  float:left;
+  align:center;
  
   line-height: 1.2;
   transition: color 0.4s;
