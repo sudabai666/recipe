@@ -17,7 +17,7 @@ const privateKey = "633e7d980d4ec321f9ccaf9ddbb817385d6da6d49494b24fe392574d6262
 // const privateKey = "1412CCB58B66370E6164047D48FFB10B6F0C42EA24A0ED5CA1E534BDBDCD06C5";
 // const contractAddr = "TFyEw5qRRiZTJ5boLZJxZnv2hnhpBuvkjm";
 // const contractAddr = "TN1JsYKjaU93EDQKfr5aSBnEbu6WVyhA7T";
-const contractAddr = "TApP82Wbkjc2dMUCkK8avaAy93vdiSzPfU";
+const contractAddr = "TFsNLa3jAyDv5goowane9DPcggoW7jmmkw";
 // const contractAddr = "TDVSKQnyRGVFGHe7ti9fpDKd8WfVwTX4A1";
 // const contractAddr = "4184073dde4655232eac57bd1cb4e59dbaf02d021c";
 

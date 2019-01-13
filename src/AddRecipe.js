@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import {instanceContract, mapReponseToJSON} from './tronweb'
+import * as Ethers from 'ethers';
 
 
 class AddRecipe extends Component {
@@ -18,28 +19,29 @@ class AddRecipe extends Component {
             placeholder="食谱名称"
             onChange={e => this.setState({ newItem: e.target.value })}
           />
-          <br />
+        
           <InputText
             value={this.state.newItem2}
             placeholder="食谱价格，单位元"
             onChange={e => this.setState({ newItem2: e.target.value })}
           />
-          <br />
+          
           <InputText
             value={this.state.newItem3}
             placeholder="制作顺序"
             onChange={e => this.setState({ newItem3: e.target.value })}
           />
-          <br />
-          <SubmitBtn onClick={() => this.handleSubmit}>
+    
+          <SubmitBtn onClick={() => this.handleSubmit()}>
             提交
           </SubmitBtn>
-
-          {/* {this.state.recipeList.length > 0 &&
+          {this.state.recipeList.length > 0 &&
             <List>
               {this.state.recipeList.map((item, itemIndex) =>
                 <TodoItem key={itemIndex}>
-                  <ItemLabel>{item.value}</ItemLabel>
+                  <ItemLabel>{item.a_name}</ItemLabel>
+                  <ItemLabel>{item.a_price}</ItemLabel>
+                  <ItemLabel>{item.a_commands}</ItemLabel>
                   <DestroyBtn
                     onClick={() => this.deleteTodoItem(itemIndex)}
                   >
@@ -48,7 +50,10 @@ class AddRecipe extends Component {
                 </TodoItem>
               )}
             </List>
-          } */}
+          }
+          
+
+          
         </TodoListContainer>
         <PendingContainer>
           <Pending
@@ -91,8 +96,8 @@ async componentWillMount() {
     });
 }
 
-async handleSubmit({ key }) {
-    if (key !== 'Enter') return;
+async handleSubmit() {
+    
     console.info("ooooooooooooooo")
 
     this.setState({ pending: true });
@@ -115,19 +120,21 @@ async handleSubmit({ key }) {
 }
 
 async getRecipes() {
-    // this.setState({
-    //     calling: true
-    // });
+    this.setState({
+        calling: true
+    });
 
-    // const recipeItemsResp = await this.recipe.getRecipeItems.call();
-    // console.log(JSON.stringify(recipeItemsResp, 4, null));
-    // const recipeList = mapReponseToJSON(
-    //     recipeItemsResp, ['a_id', 'a_commands', 'a_cooker', 'a_name', 'a_price','a_total_price', 'a_total_amt'], 'arrayOfObject'
-    // );
-    // this.setState({
-    //     calling: false
-    // });
-    // return recipeList;
+    const recipeItemsResp = await this.recipe.getRecipeItems().call();
+    console.log("=================");
+    console.log(JSON.stringify(recipeItemsResp, 4, null));
+    console.log("=================");
+    const recipeList = mapReponseToJSON(
+        recipeItemsResp, ['a_id', 'a_commands', 'a_cooker', 'a_name', 'a_price','a_total_price', 'a_total_amt'], 'arrayOfObject'
+    );
+    this.setState({
+        calling: false
+    });
+    return recipeList;
 }
 
 async deleteTodoItem(position) {
@@ -148,6 +155,105 @@ async deleteTodoItem(position) {
 }
 
 export default AddRecipe;
+
+
+// Ethers.formatBytes32String
+// Ethers.parseBytes32String
+
+function stringToBytes(str){
+	var bytes = new Array();
+	for (var i = 0; i < str.length; i++) {
+		var c = str.charCodeAt(i);
+		var s = parseInt(c).toString(2);
+		if(c >= parseInt("000080",16) && c <= parseInt("0007FF",16)){
+			var af = "";
+			for(var j = 0; j < (11 - s.length); j++){
+				af += "0";
+			}
+			af += s;
+			var n1 = parseInt("110" + af.substring(0,5),2);
+			var n2 = parseInt("110" + af.substring(5),2);
+			if(n1 > 127) n1 -= 256;
+			if(n2 > 127) n2 -= 256;
+			bytes.push(n1);
+			bytes.push(n2);
+		}else if(c >= parseInt("000800",16) && c <= parseInt("00FFFF",16)){
+			var af = "";
+			for(var j = 0; j < (16 - s.length); j++){
+				af += "0";
+			}
+			af += s;
+			var n1 = parseInt("1110" + af.substring(0,4),2);
+			var n2 = parseInt("10" + af.substring(4,10),2);
+			var n3 = parseInt("10" + af.substring(10),2);
+			if(n1 > 127) n1 -= 256;
+			if(n2 > 127) n2 -= 256;
+			if(n3 > 127) n3 -= 256;
+			bytes.push(n1);
+			bytes.push(n2);
+			bytes.push(n3);
+		}else if(c >= parseInt("010000",16) && c <= parseInt("10FFFF",16)){
+			var af = "";
+			for(var j = 0; j < (21 - s.length); j++){
+				af += "0";
+			}
+			af += s;
+			var n1 = parseInt("11110" + af.substring(0,3),2);
+			var n2 = parseInt("10" + af.substring(3,9),2);
+			var n3 = parseInt("10" + af.substring(9,15),2);
+			var n4 = parseInt("10" + af.substring(15),2);
+			if(n1 > 127) n1 -= 256;
+			if(n2 > 127) n2 -= 256;
+			if(n3 > 127) n3 -= 256;
+			if(n4 > 127) n4 -= 256;
+			bytes.push(n1);
+			bytes.push(n2);
+			bytes.push(n3);
+			bytes.push(n4);
+		}else{
+			bytes.push(c & 0xff);
+		}
+  }
+
+  for (;bytes.length < 32;) {
+    bytes.push(null)
+
+  }
+  
+  return bytes;
+}
+
+
+
+ function byteToString(arr) {
+  if(typeof arr === 'string') {
+    return arr;
+  }
+  var str = '',
+    _arr = arr;
+  for(var i = 0; i < _arr.length; i++) {
+    var one = _arr[i].toString(2),
+      v = one.match(/^1+?(?=0)/);
+    if(v && one.length == 8) {
+      var bytesLength = v[0].length;
+      var store = _arr[i].toString(2).slice(7 - bytesLength);
+      for(var st = 1; st < bytesLength; st++) {
+        store += _arr[st + i].toString(2).slice(2);
+      }
+      str += String.fromCharCode(parseInt(store, 2));
+      i += bytesLength - 1;
+    } else {
+      str += String.fromCharCode(_arr[i]);
+    }
+  }
+  return str;
+}
+
+
+
+
+
+
 
 const Container = styled.div `
   display: flex;
@@ -185,11 +291,11 @@ const InputText = styled.input `
   border: none;
   background: rgba(0, 0, 0, 0.003);
   box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
-  width: 440px;
+  width: 200px;
 
   position: relative;
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
   font-family: inherit;
   font-weight: inherit;
   line-height: 1.4em;
@@ -221,7 +327,8 @@ const ItemLabel = styled.label `
   word-break: break-all;
   padding: 15px 60px 15px 15px;
   margin-left: 45px;
-  display: block;
+  width: 200px;
+ 
   line-height: 1.2;
   transition: color 0.4s;
 `;

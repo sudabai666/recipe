@@ -15,10 +15,10 @@ contract RecipeList {
 	//一篇菜谱
 	struct Recipe {
 		uint id ;
-		//bytes32 ingredient;//菜配料表
-		bytes32 commands;  //炒菜指令序列
+		//uint ingredient;//菜配料表
+		uint commands;  //炒菜指令序列
 		address cooker ;   //上传菜谱的厨师
-		bytes32 name;      //菜名
+		uint name;      //菜名
 		uint price;        //菜价
 		uint total_price;  //总菜价
 		uint total_amt;    //订购总数
@@ -34,10 +34,10 @@ contract RecipeList {
 
     //新建一篇菜谱
     function addRecipeItem(
-		bytes32 _name,
+		uint _name,
 		uint _price,
-		//bytes32 _ingredient,
-		bytes32 _commands
+		//uint _ingredient,
+		uint _commands
 	) public returns (bool success){
 		maxId = maxId +1 ;
 		Recipe memory item;
@@ -56,10 +56,10 @@ contract RecipeList {
     }
 	function getRecipeItems() public constant returns (
 		uint[],
-		//bytes32[],
-		bytes32[],
+		//uint[],
+		uint[],
 		address[],
-		bytes32[],
+		uint[],
 		uint[],
 		//uint[],
 		uint[]
@@ -70,10 +70,10 @@ contract RecipeList {
 		uint length = recipeItems.length;
 
 		uint[] memory a_id = new uint[](length);
-		//bytes32[] memory a_ingredient= new bytes32[](length);//菜配料表
-		bytes32[] memory a_commands  = new bytes32[](length);//炒菜指令序列
+		//uint[] memory a_ingredient= new uint[](length);//菜配料表
+		uint[] memory a_commands  = new uint[](length);//炒菜指令序列
 		address[] memory a_cooker    = new address[](length);//上传菜谱的厨师
-		bytes32[] memory a_name      = new bytes32[](length);//菜名
+		uint[] memory a_name      = new uint[](length);//菜名
 		uint[] memory a_price        = new uint[](length);//菜价
 		//uint[] memory a_total_price  = new uint[](length);//总菜价
 		uint[] memory a_total_amt    = new uint[](length);//订购总数
@@ -153,10 +153,10 @@ contract RecipeList {
 	*/
    // Read function to fetch variable message
     function getRecipeInfo(uint _id) public view returns (
-		//bytes32,
-		bytes32,
+		//uint,
+		uint,
 		address,
-		bytes32,
+		uint,
 		uint,
 		//bool,
 		uint,
